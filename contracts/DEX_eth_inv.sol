@@ -19,6 +19,7 @@ contract DEX_eth_inv {
     IERC20 public invToken;
     address[] investors;
     uint256 investedEth;
+    address myDevAddress;
 
     constructor(address _ethTokenAddress, address _invTokenAddress) {
         ethPriceFeed = AggregatorV3Interface(
@@ -26,6 +27,7 @@ contract DEX_eth_inv {
         ); // for now I will use the kovan testnet priceFeed
         ethToken = IERC20(_ethTokenAddress);
         invToken = IERC20(_invTokenAddress);
+        myDevAddress = 0x93AB6B3d16e0b36A44F4E5663D5E0621EF6E03A4;
     }
 
     /**
@@ -140,6 +142,9 @@ contract DEX_eth_inv {
     function transactionFee(uint256 _amount) internal {
         uint256 fee = _amount / 100;
         uint256 myReward = fee / 10;
+
+        ethToken.transfer(myDevAddress, myReward);
+
         uint256 investorsReward = (fee / 10) * 9;
         uint256 x = investorsReward / (investedEth + (investorsReward / 100));
         for (uint256 i; i < investors.length; i++) {
