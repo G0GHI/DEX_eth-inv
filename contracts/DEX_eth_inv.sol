@@ -17,9 +17,9 @@ contract DEX_eth_inv {
     AggregatorV3Interface internal ethPriceFeed;
     IERC20 public ethToken;
     IERC20 public invToken;
-    address[] investors;
+    address payable[] investors;
     uint256 investedEth;
-    address myDevAddress;
+    address payable myDevAddress;
 
     constructor(address _ethTokenAddress, address _invTokenAddress) {
         ethPriceFeed = AggregatorV3Interface(
@@ -27,7 +27,7 @@ contract DEX_eth_inv {
         ); // for now I will use the kovan testnet priceFeed
         ethToken = IERC20(_ethTokenAddress);
         invToken = IERC20(_invTokenAddress);
-        myDevAddress = 0x93AB6B3d16e0b36A44F4E5663D5E0621EF6E03A4;
+        myDevAddress = payable(0x93AB6B3d16e0b36A44F4E5663D5E0621EF6E03A4);
     }
 
     /**
@@ -52,7 +52,7 @@ contract DEX_eth_inv {
     function invest(uint256 _amount) public isAmountAllowed(_amount) {
         ethToken.transferFrom(msg.sender, address(this), _amount);
         if (checkIfInvestorNotInList(msg.sender)) {
-            investors.push(msg.sender);
+            investors.push(payable(msg.sender));
         }
         investedBalanceOf[msg.sender] += _amount;
         investedEth += _amount;
@@ -77,7 +77,7 @@ contract DEX_eth_inv {
         uint256 amountOfInvToReturn = liquidityPoolInvBalance -
             (liquidityPoolTotal / newAmountOfEthToken);
 
-        invToken.transfer(msg.sender, amountOfInvToReturn);
+        invToken.transfer(payable(msg.sender), amountOfInvToReturn);
         transactionFee(_amount);
     }
 
@@ -104,7 +104,7 @@ contract DEX_eth_inv {
         uint256 amountOfEthToReturn = liquidityPoolEthBalance -
             (liquidityPoolTotal / newAmountOfInvToken);
 
-        ethToken.transfer(msg.sender, amountOfEthToReturn);
+        ethToken.transfer(payable(msg.sender), amountOfEthToReturn);
     }
 
     /**
