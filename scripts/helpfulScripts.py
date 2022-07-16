@@ -1,4 +1,4 @@
-from brownie import accounts, config
+from brownie import accounts, config, network
 
 
 NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]

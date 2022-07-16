@@ -23,8 +23,8 @@ contract DEX_eth_inv {
 
     constructor(address _invTokenAddress) {
         ethPriceFeed = AggregatorV3Interface(
-            0x9326BFA02ADD2366b30bacB125260Af641031331
-        ); // for now I will use the kovan testnet priceFeed
+            0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
+        ); // for now I will use the rinkeby testnet priceFeed
         ethToken = IERC20(0x2170Ed0880ac9A755fd29B2688956BD959F933F8);
         invToken = IERC20(_invTokenAddress);
         myDevAddress = payable(0x93AB6B3d16e0b36A44F4E5663D5E0621EF6E03A4);
